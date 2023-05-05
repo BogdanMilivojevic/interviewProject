@@ -1,6 +1,4 @@
 const sendError = (err, res) => {
-  console.log(err)
-  console.log(err.name)
   if (err.code === 11000) {
     res.status(400).json({
       status: 'fail',

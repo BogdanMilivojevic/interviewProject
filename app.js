@@ -38,6 +38,11 @@ app.use('/blogposts', blogPostRoutes)
 // Global error handling
 app.use(globalErrorHandler)
 // Start server
-app.listen(port, () => {
-  console.log(`Server running on port: ${port}`)
-})
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server running on port: ${port}`)
+  })
+}
+
+export default app

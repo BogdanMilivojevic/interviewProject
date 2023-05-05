@@ -3,7 +3,8 @@ import AppError from '../utils/AppError.js'
 import BlogPost from '../models/blogPostModel.js'
 
 const create = catchAsyncError(async (req, res, next) => {
-  if (Object.values(req.body).length < 4) return next(new AppError('Parameters are missing', 400))
+  const minimumLength = 3
+  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
 
   const blogPost = await BlogPost.create({
     title: req.body.title,
@@ -28,6 +29,11 @@ const index = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       blogPosts
+    })
+  } else {
+    res.status(200).json({
+      status: 'success',
+      blogPosts: []
     })
   }
 })

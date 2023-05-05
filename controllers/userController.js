@@ -3,7 +3,8 @@ import AppError from '../utils/AppError.js'
 import User from '../models/userModel.js'
 
 const create = catchAsyncError(async (req, res, next) => {
-  if (Object.values(req.body).length < 6) return next(new AppError('Parameters are missing', 400))
+  const minimumLength = 5
+  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
   await User.create({
     name: req.body.name,
     lastName: req.body.lastName,
@@ -28,6 +29,11 @@ const index = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       users
+    })
+  } else {
+    res.status(200).json({
+      status: 'success',
+      users: []
     })
   }
 })
@@ -65,7 +71,7 @@ const deleteUser = catchAsyncError(async (req, res, next) => {
 const updatePassword = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.params.id)
   user.password = req.body.password
-  user.save()
+  await user.save()
 
   res.status(200).json({
     status: 'success',

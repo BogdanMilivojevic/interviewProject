@@ -14,7 +14,8 @@ const sendToken = (user, statusCode, response) => {
 }
 
 const register = catchAsyncError(async (req, res, next) => {
-  if (Object.values(req.body).length < 6) return next(new AppError('Parameters are missing', 400))
+  const minimumLength = 5
+  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
 
   const user = await User.create({
     name: req.body.name,
@@ -28,15 +29,15 @@ const register = catchAsyncError(async (req, res, next) => {
 })
 
 const login = catchAsyncError(async (req, res, next) => {
-  if (Object.values(req.body).length < 2) return next(new AppError('Parameters are missing', 400))
+  const minimumLength = 2
+  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
 
   const email = req.body.email
   const password = req.body.password
 
   const user = await User.findOne({ email }).select('+password')
 
-  if (!user) return next(new AppError('No user found with that email', 404))
-  if (!(await user.checkPassword(password, user.password))) {
+  if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError('Wrong email or password, please try again', 401))
   }
 
