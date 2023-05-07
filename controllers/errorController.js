@@ -1,6 +1,6 @@
 const sendError = (err, res) => {
   if (err.code === 11000) {
-    res.status(400).json({
+    res.status(422).json({
       status: 'fail',
       message: `The ${Object.keys(err.keyValue)}: ${Object.values(
         err.keyValue

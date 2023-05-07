@@ -51,7 +51,6 @@ describe('register', () => {
   test('returns status code 400 if lastName is missing', async () => {
     const res = await request(app).post('/users/register').send({
       name: 'Jon',
-      lastName: 'Doe',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe@test.com',
@@ -78,7 +77,7 @@ describe('register', () => {
       email: 'johndoe@test.com',
       role: 'admin'
     })
-    expect(res.statusCode).toEqual(400)
+    expect(res.statusCode).toEqual(422)
   })
   test('returns status code 400 if username is already in use', async () => {
     const res = await request(app).post('/users/register').send({
@@ -89,7 +88,7 @@ describe('register', () => {
       email: 'johndoe1@test.com',
       role: 'admin'
     })
-    expect(res.statusCode).toEqual(400)
+    expect(res.statusCode).toEqual(422)
   })
 })
 

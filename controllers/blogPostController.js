@@ -14,7 +14,8 @@ const create = catchAsyncError(async (req, res, next) => {
   })
 
   res.status(201).json({
-    status: 'Blogpost created',
+    status: 'success',
+    message: 'Blogpost created',
     blogPost
   })
 })

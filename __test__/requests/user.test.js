@@ -34,7 +34,7 @@ describe('create new user', () => {
       expiresIn: '1d'
     })
   })
-  test('returns 201 is user is created', async () => {
+  test('returns 201 if user is created', async () => {
     const res = await request(app).post('/users').send({
       name: 'Jon',
       lastName: 'Doe',
@@ -100,7 +100,7 @@ describe('create new user', () => {
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
   })
-  test('returns 201 is email is missing', async () => {
+  test('returns 400 is email is missing', async () => {
     const res = await request(app).post('/users').send({
       name: 'Jon',
       lastName: 'Doe',
@@ -138,6 +138,26 @@ describe('create new user', () => {
       email: 'johndoe22@test.com'
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
+  })
+  test('returns 201 if existing email is being used', async () => {
+    const res = await request(app).post('/users').send({
+      name: 'Jon',
+      lastName: 'Doe',
+      username: 'johndoe1',
+      password: '123456',
+      email: 'johndoe@test.com'
+    }).set('Authorization', `Bearer ${adminToken}`)
+    expect(res.statusCode).toEqual(422)
+  })
+  test('returns 201 if existing username is being used', async () => {
+    const res = await request(app).post('/users').send({
+      name: 'Jon',
+      lastName: 'Doe',
+      username: 'johndoe',
+      password: '123456',
+      email: 'johndoe1@test.com'
+    }).set('Authorization', `Bearer ${adminToken}`)
+    expect(res.statusCode).toEqual(422)
   })
 })
 
@@ -237,7 +257,7 @@ describe('update user', () => {
       email: 'moderator@test.com',
       role: 'moderator'
     }).set('Authorization', `Bearer ${adminToken}`)
-    expect(res.statusCode).toEqual(400)
+    expect(res.statusCode).toEqual(422)
   })
   test('returns status code 400 if user wants to update to an existing username', async () => {
     const res = await request(app).patch(`/users/${moderatorId}`).send({
@@ -247,7 +267,7 @@ describe('update user', () => {
       email: 'moderator4@test.com',
       role: 'moderator'
     }).set('Authorization', `Bearer ${adminToken}`)
-    expect(res.statusCode).toEqual(400)
+    expect(res.statusCode).toEqual(422)
   })
 })
 
