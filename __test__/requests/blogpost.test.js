@@ -92,7 +92,7 @@ describe('create new blogpost', () => {
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
   })
-  test('returns status 400 if title is below 4 characters', async () => {
+  test('returns status 400 if title is below 5 characters', async () => {
     const res = await request(app).post('/blogposts').send({
       title: 'e',
       author: 'Author',
@@ -100,7 +100,7 @@ describe('create new blogpost', () => {
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
   })
-  test('returns status 400 if author is below 4 characters', async () => {
+  test('returns status 400 if author is below 5 characters', async () => {
     const res = await request(app).post('/blogposts').send({
       title: 'Title',
       author: 'e',
@@ -244,6 +244,33 @@ describe('blogpost update', () => {
     }).set('Authorization', `Bearer ${guestToken}`)
 
     expect(res.statusCode).toEqual(403)
+  })
+  test('returns status code 400 if title is less than 5 characters', async () => {
+    const res = await request(app).patch(`/blogposts/${blogpostId}`).send({
+      title: 'T',
+      author: 'Author',
+      body: 'Hello there everyone, this is my blog, please read it, and give it a like and share it with friends'
+    }).set('Authorization', `Bearer ${guestToken}`)
+
+    expect(res.statusCode).toEqual(400)
+  })
+  test('returns status code 400 if author is less than 5 characters', async () => {
+    const res = await request(app).patch(`/blogposts/${blogpostId}`).send({
+      title: 'Title',
+      author: 'a',
+      body: 'Hello there everyone, this is my blog, please read it, and give it a like and share it with friends'
+    }).set('Authorization', `Bearer ${guestToken}`)
+
+    expect(res.statusCode).toEqual(400)
+  })
+  test('returns status code 400 if body is less than 20 characters', async () => {
+    const res = await request(app).patch(`/blogposts/${blogpostId}`).send({
+      title: 'Title',
+      author: 'Author',
+      body: 'Hello there'
+    }).set('Authorization', `Bearer ${guestToken}`)
+
+    expect(res.statusCode).toEqual(400)
   })
 })
 

@@ -1,10 +1,7 @@
 import catchAsyncError from '../utils/catchAsyncError.js'
-import AppError from '../utils/AppError.js'
 import User from '../models/userModel.js'
 
 const create = catchAsyncError(async (req, res, next) => {
-  const minimumLength = 5
-  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
   await User.create({
     name: req.body.name,
     lastName: req.body.lastName,
@@ -48,8 +45,7 @@ const patch = catchAsyncError(async (req, res, next) => {
   }
 
   const updatedUser = await User.findOneAndUpdate(req.params.id, update, {
-    new: true,
-    runValidators: true
+    new: true
   })
 
   res.status(200).json({

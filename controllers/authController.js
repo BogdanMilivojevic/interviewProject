@@ -14,9 +14,6 @@ const sendToken = (user, statusCode, response) => {
 }
 
 const register = catchAsyncError(async (req, res, next) => {
-  const minimumLength = 5
-  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
-
   const user = await User.create({
     name: req.body.name,
     lastName: req.body.lastName,
@@ -29,9 +26,6 @@ const register = catchAsyncError(async (req, res, next) => {
 })
 
 const login = catchAsyncError(async (req, res, next) => {
-  const minimumLength = 2
-  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
-
   const email = req.body.email
   const password = req.body.password
 

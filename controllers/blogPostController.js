@@ -3,9 +3,6 @@ import AppError from '../utils/AppError.js'
 import BlogPost from '../models/blogPostModel.js'
 
 const create = catchAsyncError(async (req, res, next) => {
-  const minimumLength = 3
-  if (Object.values(req.body).length < minimumLength) return next(new AppError('Parameters are missing', 400))
-
   const blogPost = await BlogPost.create({
     title: req.body.title,
     author: req.body.author,

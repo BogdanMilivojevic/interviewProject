@@ -271,17 +271,19 @@ import authController from '../controllers/authController.js'
 import authentication from '../middlewares/authentication.js'
 import userPolicy from '../policy/restrict.js'
 import userController from '../controllers/userController.js'
+import validation from '../utils/validation.js'
+import validationMiddleware from '../middlewares/validation.js'
 const router = express.Router()
 
-router.post('/', authentication.authenticate, userPolicy.restrict('admin'), userController.create)
+router.post('/', validationMiddleware(validation.register), authentication.authenticate, userPolicy.restrict('admin'), userController.create)
 router.get('/', authentication.authenticate, userPolicy.restrict('admin'), userController.index)
 
-router.patch('/:id', authentication.authenticate, userPolicy.restrict('admin'), userController.patch)
+router.patch('/:id', validationMiddleware(validation.updateUser), authentication.authenticate, userPolicy.restrict('admin'), userController.patch)
 router.delete('/:id', authentication.authenticate, userPolicy.restrict('admin'), userController.deleteUser)
 
-router.patch('/updatepassword/:id', authentication.authenticate, userPolicy.restrict('admin'), userController.updatePassword)
+router.patch('/updatepassword/:id', validationMiddleware(validation.updatePassword), authentication.authenticate, userPolicy.restrict('admin'), userController.updatePassword)
 
-router.post('/register', authController.register)
-router.post('/login', authController.login)
+router.post('/register', validationMiddleware(validation.register), authController.register)
+router.post('/login', validationMiddleware(validation.login), authController.login)
 
 export default router

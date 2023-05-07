@@ -14,7 +14,7 @@ const sendError = (err, res) => {
   } else if (err.name === 'ValidationError') {
     res.status(400).json({
       status: 'fail',
-      message: err.message.split(':')[2]
+      message: err.details[0].message
     })
   } else if (err.name === 'JsonWebTokenError') {
     res.status(403).json({

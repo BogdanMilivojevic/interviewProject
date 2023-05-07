@@ -275,13 +275,15 @@ import express from 'express'
 import blogPostController from '../controllers/blogPostController.js'
 import authentication from '../middlewares/authentication.js'
 import blogPostPolicy from '../policy/restrict.js'
+import validationMiddleware from '../middlewares/validation.js'
+import validation from '../utils/validation.js'
 
 const router = express.Router()
 
-router.post('/', authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator']), blogPostController.create)
+router.post('/', validationMiddleware(validation.createOrUpdateBlogpost), authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator']), blogPostController.create)
 router.get('/', authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator', 'guest']), blogPostController.index)
 
-router.patch('/:id', authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator']), blogPostController.update)
+router.patch('/:id', validationMiddleware(validation.createOrUpdateBlogpost), authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator']), blogPostController.update)
 router.delete('/:id', authentication.authenticate, blogPostPolicy.restrict(['admin', 'moderator']), blogPostController.deleteBlogPost)
 router.patch('/like/:id', authentication.authenticate, blogPostPolicy.restrict(['guest']), blogPostController.like)
 

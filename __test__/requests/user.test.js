@@ -36,8 +36,8 @@ describe('create new user', () => {
   })
   test('returns 201 if user is created', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe@test.com'
@@ -46,8 +46,8 @@ describe('create new user', () => {
   })
   test('returns 403 if user doesnt have permission', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe2',
       password: '123456',
       email: 'johndoe2@test.com'
@@ -56,8 +56,8 @@ describe('create new user', () => {
   })
   test('returns 403 if jwt is missing', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe@test.com'
@@ -66,7 +66,7 @@ describe('create new user', () => {
   })
   test('returns 400 is name is missing', async () => {
     const res = await request(app).post('/users').send({
-      lastName: 'Doe',
+      lastName: 'Doegooder',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe@test.com'
@@ -75,7 +75,7 @@ describe('create new user', () => {
   })
   test('returns 400 if lastName is missing', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
+      name: 'Jonathan',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe@test.com'
@@ -84,7 +84,7 @@ describe('create new user', () => {
   })
   test('returns 400 is username is missing', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
+      name: 'Jonathan',
       lastName: 'Doe',
       password: '123456',
       email: 'johndoe@test.com'
@@ -93,8 +93,8 @@ describe('create new user', () => {
   })
   test('returns 400 is password is missing', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe',
       email: 'johndoe@test.com'
     }).set('Authorization', `Bearer ${adminToken}`)
@@ -102,37 +102,27 @@ describe('create new user', () => {
   })
   test('returns 400 is email is missing', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe',
       password: '123456'
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
   })
-  test('returns 400 if username is below 4 characters', async () => {
+  test('returns 400 if username is below 5 characters', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'j',
       password: '123456',
       email: 'johndoe@test.com'
     }).set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toEqual(400)
   })
-  test('returns 400 if username is below 4 characters', async () => {
+  test('returns 400 if password is below 6 characters', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
-      username: 'j',
-      password: '123456',
-      email: 'johndoe22@test.com'
-    }).set('Authorization', `Bearer ${adminToken}`)
-    expect(res.statusCode).toEqual(400)
-  })
-  test('returns 400 if password is below 4 characters', async () => {
-    const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe22',
       password: '12',
       email: 'johndoe22@test.com'
@@ -141,8 +131,8 @@ describe('create new user', () => {
   })
   test('returns 201 if existing email is being used', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe1',
       password: '123456',
       email: 'johndoe@test.com'
@@ -151,8 +141,8 @@ describe('create new user', () => {
   })
   test('returns 201 if existing username is being used', async () => {
     const res = await request(app).post('/users').send({
-      name: 'Jon',
-      lastName: 'Doe',
+      name: 'Jonathan',
+      lastName: 'Doegooder',
       username: 'johndoe',
       password: '123456',
       email: 'johndoe1@test.com'

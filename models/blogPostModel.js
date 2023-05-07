@@ -3,18 +3,15 @@ import mongoose from 'mongoose'
 const blogPostSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
-    minlength: [4, 'Title must have at least 6 characters']
+    required: true
   },
   author: {
     type: String,
-    required: true,
-    minlength: [4, 'Author must have at least 6 characters']
+    required: true
   },
   body: {
     type: String,
-    required: true,
-    minlength: [20, 'Body must have at least 6 characters']
+    required: true
   },
   date: {
     type: Date,
